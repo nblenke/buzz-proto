@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <title>Buzz</title>
-    <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sidr/2.2.1/stylesheets/jquery.sidr.dark.min.css">
+    <link rel="stylesheet" href="assets/css/default.css">
 </head>
 <body>
 
+
+
+
 <header></header>
 <main></main>
-
 <footer></footer>
 
 <script id="tmpl-header" type="text/html">
-    <a href="#!/">Home</a> |
-    <a href="#!/events/">Events</a> |
+    <div id="sidr">
+        <ul>
+            <li><a href="#!/">Home</a></li>
+            <li><a href="#!/event-list/">Event List</a></li>
+            <li><a href="#!/event-detail/">Event Detail</a></li>
+            <li><a href="#!/event-create/">Event Create</a></li>
 
-    <% if (signedIn) { %>
-        <a href="" id="signout">Sign Out</a>
-    <% } %>
+            <% if (signedIn) { %>
+                <li><a href="" id="signout">Log Out</a></li>
+            <% } %>
+        </ul>
+    </div>
+    <div class="table">
+        <div class="table-cell">
+            <a id="hamburger" href="#sidr">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
 </script>
 
 <script id="tmpl-home" type="text/html">
@@ -34,8 +52,18 @@
     <p>Sign In</p>
 </script>
 
-<script id="tmpl-events" type="text/html">
-    <p>Events</p>
+<script id="tmpl-event-list" type="text/html">
+    <p>Event List</p>
+    <p><%= data %></p>
+</script>
+
+<script id="tmpl-event-detail" type="text/html">
+    <p>Event Detail</p>
+    <p><%= data %></p>
+</script>
+
+<script id="tmpl-event-create" type="text/html">
+    <p>Event Create</p>
     <p><%= data %></p>
 </script>
 
@@ -48,166 +76,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
 <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sidr/2.2.1/jquery.sidr.min.js"></script>
 
-<script>
-(function () {
-    'use strict';
-    var app = {};
-    var config = {
-      apiKey: "AIzaSyBAJ0hAVxv9FQVGTOf7LG5cjVuoaiqpT8s",
-      authDomain: "buzz-proto.firebaseapp.com",
-      databaseURL: "https://buzz-proto.firebaseio.com",
-      storageBucket: "",
-      messagingSenderId: "471035708539"
-    };
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/header-view.js"></script>
+<script src="assets/js/footer-view.js"></script>
+<script src="assets/js/home-view.js"></script>
+<script src="assets/js/event-list-view.js"></script>
+<script src="assets/js/event-detail-view.js"></script>
+<script src="assets/js/event-create-view.js"></script>
+<script src="assets/js/router.js"></script>
 
-    firebase.initializeApp(config);
-
-    app = {
-        preRoute: function (el) {
-            el.unbind().empty();
-        },
-        headerView: Backbone.View.extend({
-            el: $('header'),
-            events: {
-                'click #signout' : 'signout'
-            },
-            signout: function (ev) {
-                ev.preventDefault();
-
-                firebase.auth().signOut().then(function() {
-                    app.router.navigate('!/signin/', {trigger: true});
-                }, function(error) {
-                    console.error(error);
-                });
-            },
-            initialize: function () {
-                var signedIn = false;
-                var that = this;
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        signedIn = true;
-                    } else {
-                        signedIn = false;
-                    }
-                    $(that.el).html(_.template($('#tmpl-header').html(), {
-                        signedIn: signedIn
-                    }));
-                }, function(error) {
-                    console.error(error);
-                });
-            }
-        }),
-        footerView: Backbone.View.extend({
-            el: $('footer'),
-            initialize: function () {
-                var date = new Date(),
-                    year = date.getFullYear();
-
-                $(this.el).html(_.template($('#tmpl-footer').html(), {
-                    year: year
-                }));
-            }
-        }),
-        homeView: Backbone.View.extend({
-            initialize: function () {
-                $(this.el).html(_.template($("#tmpl-home").html(), {}));
-            }
-        }),
-        sectionView: Backbone.View.extend({
-            initialize: function (options) {
-                this.options = options;
-                $(this.el).html(_.template($('#tmpl-section').html(), {
-                    section: this.options.section
-                }));
-            }
-        }),
-        signinView: Backbone.View.extend({
-            initialize: function (options) {
-
-            }
-        }),
-        eventsView: Backbone.View.extend({
-            initialize: function (options) {
-                var that = this;
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        console.log(user);
-                        $(that.el).html(_.template($('#tmpl-events').html(), {
-                            data: {}
-                        }));
-
-                    } else {
-                        window.location = '/signin/index.html';
-                    }
-                }, function(error) {
-                    console.error(error);
-                });
-
-
-
-            }
-        }),
-        router: Backbone.Router.extend({
-            el : $('main'),
-            routes: {
-                '': 'home',
-                '!/': 'home',
-                '!/section/:section/': 'section',
-                '!/signin/': 'signin',
-                '!/events/': 'events',
-            },
-            initialize: function () {
-                Backbone.history.start();
-                var headerView = new app.headerView(),
-                    footerView = new app.footerView();
-            },
-            home: function () {
-                app.preRoute(this.el);
-                var homeView = new app.homeView({ el: this.el });
-            },
-            section: function (section) {
-                app.preRoute(this.el);
-                var sectionView = new app.sectionView({ el: this.el });
-            },
-            signin: function (section) {
-                app.preRoute(this.el);
-                var signinView = new app.signinView({ el: this.el });
-            },
-            events: function (section) {
-                app.preRoute(this.el);
-                var eventsView = new app.eventsView({ el: this.el });
-            },
-        })
-    };
-
-    $(function () {
-        app.router = new app.router();
-
-        var initApp = function() {
-            firebase.auth().onAuthStateChanged(function(user) {
-                // User is signed in.
-                if (user) {
-                    console.log('zzz', user)
-                    // user.getToken().then(function(accessToken) {
-                    //     console.log(accessToken)
-                    // });
-                } else {
-                    // window.location = '/signin/';
-                    // app.router.navigate('!/', {trigger: true});
-                }
-            }, function(error) {
-                console.log(error);
-            });
-        };
-
-        window.addEventListener('load', function() {
-          initApp();
-
-        });
-
-    });
-}());
-</script>
 </body>
 </html>

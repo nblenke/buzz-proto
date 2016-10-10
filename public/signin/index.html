@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title></title>
+    <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
+</head>
+<body>
+
+
+<div id="firebaseui-auth-container"></div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
+
+<script>
+(function () {
+    var config = {
+      apiKey: "AIzaSyBAJ0hAVxv9FQVGTOf7LG5cjVuoaiqpT8s",
+      authDomain: "buzz-proto.firebaseapp.com",
+      databaseURL: "https://buzz-proto.firebaseio.com",
+      storageBucket: "",
+      messagingSenderId: "471035708539"
+    };
+
+    firebase.initializeApp(config);
+
+    // FirebaseUI config.
+    var uiConfig = {
+      'signInSuccessUrl': '/index.html#!/events/',
+      'signInOptions': [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ],
+      // Terms of service url.
+      'tosUrl': 'terms.html',
+    };
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
+}())
+</script>
+</body>
+</html>

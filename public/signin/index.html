@@ -18,23 +18,33 @@
 <script>
 (function () {
     var config = {
-      apiKey: "AIzaSyBAJ0hAVxv9FQVGTOf7LG5cjVuoaiqpT8s",
-      authDomain: "buzz-proto.firebaseapp.com",
-      databaseURL: "https://buzz-proto.firebaseio.com",
-      storageBucket: "",
-      messagingSenderId: "471035708539"
+        apiKey: "AIzaSyBAJ0hAVxv9FQVGTOf7LG5cjVuoaiqpT8s",
+        authDomain: "buzz-proto.firebaseapp.com",
+        databaseURL: "https://buzz-proto.firebaseio.com",
+        storageBucket: "",
+        messagingSenderId: "471035708539"
     };
 
     firebase.initializeApp(config);
 
     // FirebaseUI config.
     var uiConfig = {
-      'signInSuccessUrl': '/index.html#!/events/',
-      'signInOptions': [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-      ],
-      // Terms of service url.
-      'tosUrl': 'terms.html',
+        'signInSuccessUrl': '/app/#!/event-list/',
+        'signInOptions': [
+            firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ],
+        'tosUrl': 'terms.html',
+        // 'callbacks': {
+        //     'signInSuccess': function(currentUser) {
+        //         firebase.database().ref('users/' + currentUser.uid).set({
+        //             displayName: currentUser.displayName
+        //         });
+        //
+        //         //alert(JSON.stringify(currentUser))
+        //
+        //         return true;
+        //     }
+        // }
     };
 
     // Initialize the FirebaseUI Widget using Firebase.

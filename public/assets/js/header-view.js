@@ -26,30 +26,16 @@ app.headerView = Backbone.View.extend({
         ev.preventDefault();
 
         firebase.auth().signOut().then(function() {
-            app.router.navigate('!/signin/', {trigger: true});
+            app.router.navigate('/', {trigger: true});
         }, function(error) {
             console.error(error);
         });
     },
     initialize: function () {
-        var signedIn = false;
-        var that = this;
 
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                signedIn = true;
-            } else {
-                signedIn = false;
-            }
+        $(this.el).html(_.template($('#tmpl-header').html(), {}));
 
-            $(that.el).html(_.template($('#tmpl-header').html(), {
-                signedIn: signedIn
-            }));
+        $('#hamburger').sidr();
 
-            $('#hamburger').sidr();
-
-        }, function(error) {
-            console.error(error);
-        });
     }
 });

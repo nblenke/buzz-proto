@@ -1,32 +1,53 @@
 app.router = Backbone.Router.extend({
     el : $('main'),
     routes: {
-        '': 'home',
-        '!/': 'home',
-        '!/section/:section/': 'section',
-        '!/signin/': 'signin',
-        '!/event-list/': function (section) {
+        // '': 'home',
+        // '!/': 'home',
+        '!/event-list/': function () {
             app.preRoute(this.el);
             new app.eventListView({ el: this.el });
         },
-        '!/event-detail/': function (section) {
+        '!/event-detail/:key': function (key) {
             app.preRoute(this.el);
-            new app.eventDetailView({ el: this.el });
+            new app.eventDetailView({ el: this.el, key: key });
         },
-        '!/event-create/': function (section) {
+        '!/event-create/': function () {
             app.preRoute(this.el);
             new app.eventCreateView({ el: this.el });
         },
     },
     initialize: function () {
-        Backbone.history.start();
-        new app.headerView(),
-        new app.footerView();
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                Backbone.history.start();
+                new app.headerView();
+                new app.footerView();
+
+                // TODO: hook up email verification
+                // if (!user.emailVerified)
+
+                // firebase.auth().currentUser.sendEmailVerification()
+
+                var database = firebase.database();
+                var currentUser = firebase.auth().currentUser;
+
+                database.ref('users/' + currentUser.uid).set({
+                    email: currentUser.email,
+                    displayName: currentUser.displayName
+                });
+
+
+            } else {
+                window.location = '/';
+            }
+        }, function(error) {
+            console.error(error);
+        });
     },
-    home: function () {
-        app.preRoute(this.el);
-        new app.homeView({ el: this.el });
-    },
+    // home: function () {
+    //     app.preRoute(this.el);
+    //     new app.homeView({ el: this.el });
+    // },
 });
 
 $(function () {

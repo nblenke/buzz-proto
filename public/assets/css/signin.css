@@ -1,0 +1,11 @@
+body.signin {
+
+}
+
+
+.signin__logo {
+    margin: 10px 0 30px;
+    height: 100px;
+    background: no-repeat center url(/assets/img/logo0.png);
+    background-size: auto 100%;
+}

@@ -1,0 +1,30 @@
+
+body.land {
+    background: #f3f3f3;
+}
+
+.land__sign-up {
+    padding: 10px;
+    color: #222;
+    text-transform:uppercase;
+    float: right;
+    text-decoration: none;
+}
+
+.land__logo {
+    margin: 140px 0 0;
+    height: 110px;
+    background: no-repeat center url(/assets/img/logo0.png);
+    background-size: auto 100%;
+}
+
+.land__sign-in {
+    display: block;
+    height: 220px;
+    background: no-repeat right url(/assets/img/land-proceed.png);
+    background-size: auto 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

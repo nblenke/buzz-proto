@@ -15,6 +15,10 @@ app.router = Backbone.Router.extend({
             app.preRoute(this.el);
             new app.eventCreateView({ el: this.el });
         },
+        '!/account/': function () {
+            app.preRoute(this.el);
+            new app.accountView({ el: this.el });
+        },
     },
     initialize: function () {
         firebase.auth().onAuthStateChanged(function(user) {
@@ -31,9 +35,11 @@ app.router = Backbone.Router.extend({
                 var database = firebase.database();
                 var currentUser = firebase.auth().currentUser;
 
-                database.ref('users/' + currentUser.uid).set({
+                // add user to database of users
+                // TODO: show add photo wizard if no photo
+                database.ref('users/' + currentUser.uid).update({
                     email: currentUser.email,
-                    displayName: currentUser.displayName
+                    displayName: currentUser.displayName,
                 });
 
 

@@ -1,15 +1,15 @@
 app.eventDetailView = Backbone.View.extend({
     initialize: function (options) {
         var that = this;
-        var userId = firebase.auth().currentUser.uid;
         var database = firebase.database();
+        var currentUser = firebase.auth().currentUser;
 
         return database.ref('/events/' + options.key).once('value').then(function(snapshot) {
-            var obj = snapshot.val();
-            obj.key = options.key;
+            var eventDetail = snapshot.val();
+            eventDetail.key = options.key;
 
             $(that.el).html(_.template($('#tmpl-event-detail').html(), {
-                item: obj
+                eventDetail: eventDetail
             }));
         });
 

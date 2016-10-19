@@ -7,11 +7,11 @@ app.eventCreateView = Backbone.View.extend({
         var currentUser = firebase.auth().currentUser;
         var attendees = [];
 
-        firebase.database().ref('users/' + currentUser.uid).set({
-            displayName: currentUser.displayName
+        attendees.push({
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+            uid: currentUser.uid
         });
-
-        attendees.push(currentUser.uid);
 
         database.ref('events/' + utils.guid()).set({
             type: 'party',

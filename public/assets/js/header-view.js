@@ -6,7 +6,7 @@ window.app = {
         apiKey: "AIzaSyBAJ0hAVxv9FQVGTOf7LG5cjVuoaiqpT8s",
         authDomain: "buzz-proto.firebaseapp.com",
         databaseURL: "https://buzz-proto.firebaseio.com",
-        storageBucket: "",
+        storageBucket: "gs://buzz-proto.appspot.com",
         messagingSenderId: "471035708539"
     }
 };

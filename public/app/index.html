@@ -6,6 +6,8 @@
     <title></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sidr/2.2.1/stylesheets/jquery.sidr.dark.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/css/default.css">
 </head>
 <body>
@@ -37,32 +39,65 @@
     <p>Home</p>
 </script>
 
+<script id="tmpl-account" type="text/html">
+    <p>Account</p>
+
+    <form id="foo">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputFile">File input</label>
+        <input type="file" id="exampleInputFile">
+        <p class="help-block">Example block-level help text here.</p>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Check me out
+        </label>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</script>
+
 <script id="tmpl-event-list" type="text/html">
     <p>Event List</p>
     <a href="#!/event-create/">Event Create</a>
 
-    <% _.each(list, function(item){ %>
-        <p>
-            <%= item.date %><br>
-            <%= item.time %><br>
-            <%= item.type %><br>
-            <a href="<%= '#!/event-detail/' + item.key %>">link</a>
-        </p>
-    <% }); %>
+    <%
+    if (list.length) {
+        _.each(list, function(item){ %>
+            <p>
+                <%= item.date %><br>
+                <%= item.time %><br>
+                <%= item.type %><br>
+                <a href="<%= '#!/event-detail/' + item.key %>">link</a>
+            </p>
+    <%
+        });
+    } else { %>
+        <p>You don't have any events scheduled.</p>
+    <% } %>
 </script>
 
 <script id="tmpl-event-detail" type="text/html">
     <p>Event Detail</p>
     <p>
-        <%= item.date %><br>
-        <%= item.time %><br>
-        <%= item.type %><br>
+        <%= eventDetail.date %><br>
+        <%= eventDetail.time %><br>
+        <%= eventDetail.type %><br>
     </p>
 
-    <h1>Invited</h1>
-    <% _.each(item.attendees, function(attendee){ %>
+    <p>Invited</p>
+    <% _.each(eventDetail.attendees, function(attendee){ %>
         <p>
-            <%= attendee %>
+            <img src="<%= attendee.photoURL %>"><br>
+            <%= attendee.displayName %>
         </p>
     <% }); %>
 </script>
@@ -81,11 +116,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sidr/2.2.1/jquery.sidr.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script src="/assets/js/utils.js"></script>
 <script src="/assets/js/header-view.js"></script>
 <script src="/assets/js/footer-view.js"></script>
 <script src="/assets/js/home-view.js"></script>
+<script src="/assets/js/account-view.js"></script>
 <script src="/assets/js/event-list-view.js"></script>
 <script src="/assets/js/event-detail-view.js"></script>
 <script src="/assets/js/event-create-view.js"></script>

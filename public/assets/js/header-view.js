@@ -1,5 +1,6 @@
 window.app = {
-    preRoute: function (el) {
+    preRoute: function (view, el) {
+        $('body').removeClass().addClass(view);
         el.unbind().empty();
     },
     config: {

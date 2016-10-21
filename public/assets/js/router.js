@@ -4,19 +4,20 @@ app.router = Backbone.Router.extend({
         // '': 'home',
         // '!/': 'home',
         '!/event-list/': function () {
-            app.preRoute(this.el);
+            app.preRoute('event-list', this.el);
             new app.eventListView({ el: this.el });
         },
         '!/event-detail/:key': function (key) {
-            app.preRoute(this.el);
+            app.preRoute('event-detail', this.el);
+            $('body').addClass('event-detail');
             new app.eventDetailView({ el: this.el, key: key });
         },
         '!/event-create/': function () {
-            app.preRoute(this.el);
+            app.preRoute('event-create', this.el);
             new app.eventCreateView({ el: this.el });
         },
         '!/account/': function () {
-            app.preRoute(this.el);
+            app.preRoute('account', this.el);
             new app.accountView({ el: this.el });
         },
     },

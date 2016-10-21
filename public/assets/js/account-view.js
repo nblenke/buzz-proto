@@ -1,18 +1,49 @@
 app.accountView = Backbone.View.extend({
     events: {
-        'submit #foo': 'uploadImage',
+        'submit #account-edit': 'submitForm',
     },
     initialize: function () {
-        $(this.el).html(_.template($("#tmpl-account").html(), {}));
-    },
-    uploadImage: function (ev, data) {
-        ev.preventDefault();
+        var currentUser = firebase.auth().currentUser;
 
+        $(this.el).html(_.template($("#tmpl-account").html(), {
+            currentUser: currentUser
+        }));
+    },
+    submitForm: function (ev) {
+        ev.preventDefault();
+        this.saveDisplayName();
+        this.uploadImage();
+    },
+    saveDisplayName: function () {
+        var database = firebase.database();
+        var currentUser = firebase.auth().currentUser;
+        var displayName = $('#displayName').val();
+
+        // update auth
+        currentUser.updateProfile({
+            displayName: displayName,
+          }).then(function() {
+            // Update successful.
+          }, function(error) {
+            // An error happened.
+          });
+
+        // update users
+        database.ref('users/' + currentUser.uid).update({
+            displayName: displayName,
+        });
+    },
+    uploadImage: function() {
+        var database = firebase.database();
         var storageRef = firebase.storage().ref();
         var currentUser = firebase.auth().currentUser;
 
         // File or Blob named mountains.jpg
-        var file = document.getElementById("exampleInputFile").files[0];
+        var file = document.getElementById("imageFileInput").files[0];
+
+        if (!file) {
+            return;
+        }
 
         // Create the file metadata
         var metadata = {
@@ -58,15 +89,18 @@ app.accountView = Backbone.View.extend({
           var downloadURL = uploadTask.snapshot.downloadURL;
           console.log(downloadURL)
 
+          // update auth
           currentUser.updateProfile({
               photoURL: downloadURL,
             }).then(function() {
               // Update successful.
+              $('#currentPhoto').attr('src', downloadURL);
             }, function(error) {
               // An error happened.
             });
 
-          app.database.ref('users/' + app.currentUser.uid).update({
+          // update users
+          database.ref('users/' + currentUser.uid).update({
               photoURL: downloadURL,
           });
         });

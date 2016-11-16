@@ -1,14 +1,94 @@
-body {
-    padding: 10px;
-    font-family: sans-serif;
-}
-
-
 #hamburger {
     color: #333;
     font-size: 30px;
 }
 
+body {
+    padding: 10px 0;
+}
+
 body.account .img-circle {
     width: 100px;
+}
+
+.header-left {
+    text-align: center;
+    width: 50px;
+    height: 50px;
+}
+
+.header-title {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    right: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.header-title h2 {
+    margin: 2px 0 0;
+}
+
+.header-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.header-right a {
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.header-right i {
+    color: #333;
+    font-size: 20px;
+    line-height: 50px;
+}
+
+.event-list-item {
+    display: block;
+    margin: 0 0 4px;
+    text-decoration: none;
+    height: 200px;
+    font-size: 0;
+    background: url(/assets/img/party.jpg);
+    background-size: cover;
+}
+
+.event-list-item__left {
+    display: inline-block;
+    width: 50%;
+    height: 200px;
+    font-size: 13px;
+    padding: 10px;
+    vertical-align: top;
+    color: #fff;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.event-list-item__left .fa {
+    font-size: 20px;
+    margin: 0 0 5px;
+}
+
+.event-list-item__right {
+    display: inline-block;
+    width: 50%;
+    height: 200px;
+    line-height: 300px;
+    font-size: 40px;
+    text-transform: uppercase;
+    color: #fff;
+    vertical-align: top;
+    text-align: center;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2)
+}
+
+.event-list-item__right.c--party {
+
 }

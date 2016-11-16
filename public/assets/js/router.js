@@ -9,7 +9,6 @@ app.router = Backbone.Router.extend({
         },
         '!/event-detail/:key': function (key) {
             app.preRoute('event-detail', this.el);
-            $('body').addClass('event-detail');
             new app.eventDetailView({ el: this.el, key: key });
         },
         '!/event-create/': function () {

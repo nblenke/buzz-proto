@@ -26,12 +26,10 @@
             <li><a href="" id="signout">Log Out</a></li>
         </ul>
     </div>
-    <div class="table">
-        <div class="table-cell">
-            <a id="hamburger" href="#sidr">
-                <i class="fa fa-bars" aria-hidden="true"></i>
-            </a>
-        </div>
+    <div class="header-left">
+        <a id="hamburger" href="#sidr">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </a>
     </div>
 </script>
 
@@ -62,18 +60,37 @@
 </script>
 
 <script id="tmpl-event-list" type="text/html">
-    <p>Event List</p>
-    <a href="#!/event-create/">Event Create</a>
+    <div class="header-title">
+        <h2>Events</h2>
+    </div>
+    <div class="header-right">
+        <a href="#!/event-create/">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
 
     <%
     if (list.length) {
         _.each(list, function(item){ %>
-            <p>
-                <%= item.date %><br>
-                <%= item.time %><br>
-                <%= item.type %><br>
-                <a href="<%= '#!/event-detail/' + item.key %>">link</a>
-            </p>
+            <a href="<%= '#!/event-detail/' + item.key %>" class="event-list-item">
+                <div class="event-list-item__left">
+                    <div>
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <%= item.date %> <%= item.time %>
+                    </div>
+                    <div>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <%= item.location %>
+                    </div>
+                    <div>
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <%= item.attendees.length %> Attendees
+                    </div>
+                </div>
+                <div class="event-list-item__right c--<%= item.type %>">
+                    <%= item.type %>
+                </div>
+            </a>
     <%
         });
     } else { %>
@@ -82,7 +99,7 @@
 </script>
 
 <script id="tmpl-event-detail" type="text/html">
-    <p>Event Detail</p>
+    <div class="header-title">Event Detail</div>
     <p>
         <%= eventDetail.date %><br>
         <%= eventDetail.time %><br>
@@ -90,7 +107,7 @@
     </p>
 
     <p>Invited</p>
-    <% _.each(eventDetail.attendees, function(attendee){ %>
+    <% _.each(eventDetail.attendees, function(attendee) { %>
         <p>
             <img src="<%= attendee.photoURL %>"><br>
             <%= attendee.displayName %>
@@ -99,7 +116,7 @@
 </script>
 
 <script id="tmpl-event-create" type="text/html">
-    <p>Event Create</p>
+    <div class="header-title">New Event</div>
     <button id="create">Create</button>
 </script>
 

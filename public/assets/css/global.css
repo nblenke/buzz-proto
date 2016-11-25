@@ -1,0 +1,50 @@
+#hamburger {
+    color: #333;
+    font-size: 30px;
+}
+
+body {
+    padding: 10px 0;
+}
+
+body.account .img-circle {
+    width: 100px;
+}
+
+.header-left {
+    text-align: center;
+    width: 50px;
+    height: 50px;
+}
+
+.header-title {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    right: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.header-title h2 {
+    margin: 2px 0 0;
+}
+
+.header-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.header-right a {
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.header-right i {
+    color: #333;
+    font-size: 20px;
+    line-height: 50px;
+}

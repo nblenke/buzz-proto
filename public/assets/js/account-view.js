@@ -86,7 +86,7 @@ app.accountView = Backbone.View.extend({
           }
         }, function() {
           // Upload completed successfully, now we can get the download URL
-          var downloadURL = uploadTask.snapshot.downloadURL;
+          var downloadURL = uploadTask.snapshot.downloadURL.split('&token')[0];
           console.log(downloadURL)
 
           // update auth

@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sidr/2.2.1/stylesheets/jquery.sidr.dark.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="/assets/css/default.css">
+    <link rel="stylesheet" href="/assets/css/event-create.css">
+    <link rel="stylesheet" href="/assets/css/event-list.css">
 </head>
 <body>
 
@@ -72,7 +74,7 @@
     <%
     if (list.length) {
         _.each(list, function(item){ %>
-            <a href="<%= '#!/event-detail/' + item.key %>" class="event-list-item">
+            <a href="<%= '#!/event-detail/' + item.key %>" class="event-list-item c--<%= item.type %>">
                 <div class="event-list-item__left">
                     <div>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -87,14 +89,19 @@
                         <%= item.attendees.length %> Attendees
                     </div>
                 </div>
-                <div class="event-list-item__right c--<%= item.type %>">
+                <div class="event-list-item__right">
                     <%= item.type %>
                 </div>
             </a>
     <%
         });
     } else { %>
-        <p>You don't have any events scheduled.</p>
+        <div class="container event-list__no-events">
+            <p>You don't have any events scheduled.</p>
+            <a href="#!/event-create/" class="btn btn-primary">
+                Create Event
+            </a>
+        </div>
     <% } %>
 </script>
 
@@ -109,7 +116,7 @@
     <p>Invited</p>
     <% _.each(eventDetail.attendees, function(attendee) { %>
         <p>
-            <img src="<%= attendee.photoURL %>"><br>
+            <img src="https://firebasestorage.googleapis.com/v0/b/buzz-proto.appspot.com/o/images%2F<%= attendee.uid %>?alt=media"><br>
             <%= attendee.displayName %>
         </p>
     <% }); %>
@@ -117,7 +124,75 @@
 
 <script id="tmpl-event-create" type="text/html">
     <div class="header-title">New Event</div>
-    <button id="create">Create</button>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#create-tab-what" aria-controls="what" role="tab" data-toggle="tab">
+                <i class="fa fa-tag" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#create-tab-where" aria-controls="where" role="tab" data-toggle="tab">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#create-tab-when" aria-controls="when" role="tab" data-toggle="tab">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#create-tab-who" aria-controls="who" role="tab" data-toggle="tab">
+                <i class="fa fa-group" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active create-tab-what" id="create-tab-what">
+            <input type="radio" name="create-what" id="create-what-food" value="0">
+            <label for="create-what-food">
+                <i class="fa fa-cutlery" aria-hidden="true"></i>
+            </label>
+
+            <input type="radio" name="create-what" id="create-what-sports" value="1">
+            <label for="create-what-sports">
+                <i class="fa fa-soccer-ball-o" aria-hidden="true"></i>
+            </label>
+
+            <input type="radio" name="create-what" id="create-what-study" value="2">
+            <label for="create-what-study">
+                <i class="fa fa-book" aria-hidden="true"></i>
+            </label>
+
+            <input type="radio" name="create-what" id="create-what-party" value="3">
+            <label for="create-what-party">
+                <i class="fa fa-music" aria-hidden="true"></i>
+            </label>
+
+            <input type="radio" name="create-what" id="create-what-shop" value="4">
+            <label for="create-what-shop">
+                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+            </label>
+
+            <label id="create-what-custom">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </label>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="create-tab-where">
+            where
+        </div>
+        <div role="tabpanel" class="tab-pane" id="create-tab-when">
+            when
+        </div>
+        <div role="tabpanel" class="tab-pane" id="create-tab-who">
+            who
+
+            <button id="create" class="btn btn-primary">Create Event</button>
+        </div>
+    </div>
 </script>
 
 <script id="tmpl-footer" type="text/html">

@@ -2,6 +2,7 @@ app.eventCreateView = Backbone.View.extend({
     events: {
         'click #create' : 'create',
     },
+    // test data
     create: function () {
         var database = firebase.database();
         var currentUser = firebase.auth().currentUser;
@@ -9,7 +10,6 @@ app.eventCreateView = Backbone.View.extend({
 
         attendees.push({
             displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
             uid: currentUser.uid
         });
 
@@ -17,6 +17,14 @@ app.eventCreateView = Backbone.View.extend({
             type: 'party',
             location: '',
             date: '12/22/2016',
+            time: '11:00 PM EST',
+            attendees: attendees
+        });
+
+        database.ref('events/' + utils.guid()).set({
+            type: 'study',
+            location: '',
+            date: '2/22/2017',
             time: '11:00 PM EST',
             attendees: attendees
         });

@@ -1,0 +1,25 @@
+.event-create {
+
+}
+
+.create-tab-what {
+
+}
+
+.create-tab-what input {
+    display: none;
+}
+
+.create-tab-what label {
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    display: inline-block;
+    border: 1px solid #333;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.create-tab-what label i {
+    font: 30px/80px fontawesome;
+}
